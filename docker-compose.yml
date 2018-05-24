@@ -7,8 +7,9 @@ services:
     environment:
       - DB=${DB_CONFIG}
       - SECRET=thisissecretforproduction
-      - SUPER_ADMIN_TOKEN=12345
+      - SUPER_ADMIN_TOKEN=${SUPER_ADMIN_TOKEN}
       - PORT=7000
+      - RANK_HOST=http://rank:7001
     ports:
       - 7000:7000
 
@@ -18,16 +19,11 @@ services:
     build: ./repos/Barracks
     environment:
       - DB=${DB_GO_CONFIG}
-      - PORT=8000
+      - PORT=7001
       - CONTEST=contest01
-      - PUSHHOST=localhost:8000
-
-  db:
-    image: mysql:5.7
-    environment:
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=armory-production
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      - PUSHHOST=web:7000
+    ports:
+      - 7001:7001
 
   router:
     image: nginx:latest
