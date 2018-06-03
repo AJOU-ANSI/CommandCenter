@@ -9,24 +9,69 @@ services:
       - SECRET=thisissecretforproduction
       - SUPER_ADMIN_TOKEN=${SUPER_ADMIN_TOKEN}
       - PORT=7000
-      - RANK_HOST=http://rank:7001
+      - DEFAULT_CONTEST=${DEFAULT_CONTEST}
+      - MONGO=mongodb://mongo/armory-production
+
     ports:
       - 7000:7000
+    volumes:
+      - ./problems/data:/root/app/Armory/data
 
-  rank:
+  rank1:
     restart: always
     image: 127.0.0.1:5000/shake-rank
     build: ./repos/Barracks
     environment:
       - DB=${DB_GO_CONFIG}
       - PORT=7001
-      - CONTEST=contest01
-      - PUSHHOST=web:7000
+      - CONTEST=apc_div1
+      - PUSHHOST=http://web:7000
     ports:
       - 7001:7001
 
-  router:
-    image: nginx:latest
+  rank2:
+    restart: always
+    image: 127.0.0.1:5000/shake-rank
+    build: ./repos/Barracks
+    environment:
+      - DB=${DB_GO_CONFIG}
+      - PORT=7001
+      - CONTEST=apc_div2
+      - PUSHHOST=http://web:7000
+    ports:
+      - 7002:7001
+
+  rank3:
+    restart: always
+    image: 127.0.0.1:5000/shake-rank
+    build: ./repos/Barracks
+    environment:
+      - DB=${DB_GO_CONFIG}
+      - PORT=7001
+      - CONTEST=shake_skku
+      - PUSHHOST=http://web:7000
+    ports:
+      - 7003:7001
+
+  rank4:
+    restart: always
+    image: 127.0.0.1:5000/shake-rank
+    build: ./repos/Barracks
+    environment:
+      - DB=${DB_GO_CONFIG}
+      - PORT=7001
+      - CONTEST=shake_krar
+      - PUSHHOST=http://web:7000
+    ports:
+      - 7004:7001
+
+  mongo:
+    restart: always
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo/datadir:/data/db
 
   dashboard:
     image: charypar/swarm-dashboard

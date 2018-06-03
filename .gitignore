@@ -1,2 +1,4 @@
 repos
 .env
+problems/
+mongo/
