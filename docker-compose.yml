@@ -17,17 +17,17 @@ services:
     volumes:
       - ./problems/data:/root/app/Armory/data
 
-  # rank1:
-  #   restart: always
-  #   image: 127.0.0.1:5000/shake-rank
-  #   build: ./repos/Barracks
-  #   environment:
-  #     - DB=${DB_GO_CONFIG}
-  #     - PORT=7001
-  #     - CONTEST=apc_div1
-  #     - PUSHHOST=http://web:7000
-  #   ports:
-  #     - 7001:7001
+  rank1:
+    restart: always
+    image: 127.0.0.1:5000/shake-rank
+    build: ./repos/Barracks
+    environment:
+      - DB=${DB_GO_CONFIG}
+      - PORT=7001
+      - CONTEST=shake2018_final_ot
+      - PUSHHOST=http://web:7000
+    ports:
+      - 7001:7001
 
   # rank2:
   #   restart: always
